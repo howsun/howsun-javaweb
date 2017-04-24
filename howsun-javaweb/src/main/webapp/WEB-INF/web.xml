@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+  <display-name>company-portal</display-name>
+  
+  
+  <!-- 启动Spring父容器 -->
+  <context-param>
+  	<param-name>contextConfigLocation</param-name>
+  	<param-value>classpath:spring-context.xml</param-value>
+  </context-param>
+  <listener>
+  	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  
+  
+  <!-- Spring MVC访问静态资源方式1：借助Web容器的DefaultServlet处理 -->
+  <servlet-mapping>
+  	<servlet-name>default</servlet-name>
+  	
+  	<url-pattern>/css/*</url-pattern>
+  	<url-pattern>/fonts/*</url-pattern>
+  	<url-pattern>/js/*</url-pattern>
+  	<url-pattern>/images/*</url-pattern>
+  	<!-- 
+  	<url-pattern>*.css</url-pattern>
+  	<url-pattern>*.jpg</url-pattern>
+  	<url-pattern>*.png</url-pattern>
+  	 -->
+  </servlet-mapping>
+
+	<!-- Spring 子容器 -->
+  <servlet>
+    <servlet-name>web</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <!-- 第1种找到容器配置方式是根据servlet初始化参数
+    <init-param>
+    	<param-name>contextConfigLocation</param-name>
+    	<param-value>classpath:spring-mvc.xml</param-value>
+    </init-param>
+     -->
+     <!-- 第2种是根据约定方式，即在WEB-INF下找“servlet名加上‘-servlet.xml’，我们这里就是‘/WEB-INF/web-servlet.xml’” -->
+    <load-on-startup>2</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>web</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  
+  
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <error-page>
+    <error-code>404</error-code>
+    <location>/404.jsp</location>
+  </error-page>
+  <error-page>
+    <error-code>500</error-code>
+    <location>/500.jsp</location>
+  </error-page>
+  
+</web-app>
